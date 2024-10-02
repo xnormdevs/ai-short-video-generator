@@ -1,13 +1,14 @@
 "use client";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+
 import Login from "../authModal/Login";
+import Logout from "../logout/Logout";
 
 const Navbar = () => {
-  const { data } = useSession();
-  console.log(data);
+  const { data: session, status } = useSession();
+  console.log(session, status);
 
   return (
     <nav className="flex items-center justify-between bg-gray-800 h-12 mb-8 py-2">
@@ -23,7 +24,13 @@ const Navbar = () => {
           </div>
         </Link>
         <div className="flex items-center"></div>
-        <Login />
+        {status === "authenticated" ? (
+          <>
+            <Logout />
+          </>
+        ) : (
+          <Login />
+        )}
       </div>
     </nav>
   );
