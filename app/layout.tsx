@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import "./globals.css";
 import { NextAuthProvider } from "./provider";
-import Navbar from "@/components/navbar/navbar";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -22,7 +21,6 @@ export default function RootLayout({
         className={outfit.className}
       >
         <NextAuthProvider>
-          <Navbar />
           <main>{children}</main>
         </NextAuthProvider>
       </body>
