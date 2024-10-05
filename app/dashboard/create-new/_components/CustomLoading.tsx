@@ -13,7 +13,7 @@ export interface CustomLoadingProps {
 
 const CustomLoading = ({ loading }: CustomLoadingProps) => {
   return (
-    <AlertDialog open={true}>
+    <AlertDialog open={loading}>
       <AlertDialogTitle>Alomost there!</AlertDialogTitle>
       <AlertDialogContent>
         <div className="flex flex-col items-center py-10 justify-center">
