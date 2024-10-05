@@ -36,7 +36,10 @@ export const authConfig: NextAuthOptions = {
       }
       return true;
     },
-
+    async redirect({ url, baseUrl }) {
+      // Redirect to the dashboard after successful sign-in
+      return baseUrl + "/dashboard";
+    },
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
