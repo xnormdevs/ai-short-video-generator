@@ -29,6 +29,7 @@ const CreateNew = () => {
   const { toast } = useToast();
   const [loading, setLoading] = useState<boolean>(false);
   const [formData, setFormData] = useState<IFormData>(initialFormData);
+  const videoScript: string = `A cartoon sun rising over a mountain range, with fluffy clouds and a bright blue sky. The quote 'The sun is a daily reminder that we too can rise again from the darkness, that we too can shine our own light.' is written in a whimsical font at the bottom. A cartoon rocket blasting off into space, leaving a trail of colorful smoke.  The quote 'Don't be afraid to give up the good to go for the great.' is written in a bold font near the rocket. A cartoon character, a cheerful ladybug, standing on a flower with a big smile. The quote 'Be the change that you wish to see in the world.' is written in a flowing font around the ladybug. A cartoon scene with a young tree growing tall and strong with a rainbow in the background. The quote 'The only way to do great work is to love what you do.' is written in a playful font near the tree. A cartoon cityscape with buildings and a bright sun shining down.  The quote 'Believe you can and you're halfway there.' is written in a large font over the cityscape. A cartoon character, a friendly dog, wagging its tail and running through a field of flowers. The quote 'Life is too short to be anything but happy.' is written in a fun font at the bottom of the screen.`;
   const onHandleInputChange = (fieldName: string, fieldValue: string) => {
     setFormData((prev) => ({
       ...prev,
@@ -37,7 +38,8 @@ const CreateNew = () => {
   };
 
   const onCreateClickHandler = () => {
-    getVideoScript();
+    // getVideoScript();
+    generateAudioFile([]);
   };
   // get video script
   const getVideoScript = async () => {
@@ -69,12 +71,12 @@ const CreateNew = () => {
     const script = videoScriptData
       ?.map((item: IVideoScript) => item.imagePrompt)
       .join(" ");
-    console.log(script);
+    console.log(videoScript);
     const id = uuidv4();
     await axios
       .post("/api/audio/generate-audio", {
         id: id,
-        text: script,
+        text: videoScript,
       })
       .then((res) => {
         console.log(res.data);
