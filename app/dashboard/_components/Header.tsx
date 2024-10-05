@@ -10,7 +10,7 @@ const Header = () => {
   console.log(session, status);
 
   return (
-    <div className="flex items-center justify-between shadow-md h-16 mb-2 py-2 px-10">
+    <div className="flex items-center justify-between shadow-md h-16 mb-2 py-2 px-10 fixed w-full">
       <div className="w-full flex justify-between items-center">
         <Link href="/">
           <div className="text-white text-xl font-bold flex items-center">

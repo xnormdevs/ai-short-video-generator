@@ -47,7 +47,7 @@ const SideNav = () => {
   const path = usePathname();
   console.log(path);
   return (
-    <div className="w-full h-screen px-5 pt-10 shadow-md">
+    <div className="w-full h-screen px-5 pt-20 shadow-md">
       <div className="grid gap-2">
         {MenuOptions.map((item, i) => (
           <Link href={item.path} key={i}>

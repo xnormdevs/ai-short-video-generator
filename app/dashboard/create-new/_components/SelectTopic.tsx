@@ -9,37 +9,38 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import GrayText from "@/components/common/GrayText";
+import ColorTitle from "@/components/common/ColorTitle";
 export interface SelectTopicProps {
   onUserSelect: (fieldName: string, fieldValue: string) => void;
 }
+const optioins: string[] = [
+  "Custom Prompt",
+  "Random AI Story",
+  "Scary Story",
+  "Funny Skit",
+  "Inspirational Quote Animation",
+  "Motivational Speech",
+  "Science Fact Animation",
+  "Fantasy Adventure",
+  "Interactive Quiz",
+  "Daily Horoscope",
+  "AI-generated Joke",
+  "Romantic Short",
+  "Action Scene",
+  "Mystery Plot Teaser",
+  "Life Hack Explainer",
+  "Historical Moment Recreation",
+  "Personalized Poem",
+  "Futuristic Sci-Fi Snippet",
+  "Thriller Scene",
+  "Crime Investigation Teaser",
+];
 const SelectTopic = ({ onUserSelect }: SelectTopicProps) => {
-  const optioins = [
-    "Custom Prompt",
-    "Random AI Story",
-    "Scary Story",
-    "Funny Skit",
-    "Inspirational Quote Animation",
-    "Motivational Speech",
-    "Science Fact Animation",
-    "Fantasy Adventure",
-    "Interactive Quiz",
-    "Daily Horoscope",
-    "AI-generated Joke",
-    "Romantic Short",
-    "Action Scene",
-    "Mystery Plot Teaser",
-    "Life Hack Explainer",
-    "Historical Moment Recreation",
-    "Personalized Poem",
-    "Futuristic Sci-Fi Snippet",
-    "Thriller Scene",
-    "Crime Investigation Teaser",
-  ];
-  const [selectedOption, setSelectedOption] = useState(optioins[0]);
+  const [selectedOption, setSelectedOption] = useState<string | undefined>(undefined);
 
   return (
     <div>
-      <h2 className="font-bold text-2xl text-primary">Content</h2>
+      <ColorTitle text={"Content"} />
       <GrayText text="What is the topic of your video?" />
       <Select
         onValueChange={(value) => {

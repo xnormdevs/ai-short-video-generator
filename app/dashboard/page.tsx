@@ -8,7 +8,7 @@ import HeaderTitle from "../../components/common/HeaderTitle";
 const Dashboard = () => {
   const [videoList, setVideoList] = useState([]);
   return (
-    <div>
+    <div className="md:px-20">
       <div className="flex items-center justify-between">
         <HeaderTitle title="Dashboard" />
         <Link href="/dashboard/create-new">
