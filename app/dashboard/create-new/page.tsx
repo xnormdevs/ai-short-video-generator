@@ -5,7 +5,9 @@ import SelectTopic from "./_components/SelectTopic";
 import SelectStyle from "./_components/SelectStyle";
 import SelectDuration from "./_components/SelectDuration";
 import { Button } from "@/components/ui/button";
-
+import { useToast } from "@/hooks/use-toast";
+import axios from "axios";
+import CustomLoading from "./_components/CustomLoading";
 export interface IFormData {
   topic: string;
   imageStyle: string;
@@ -19,13 +21,45 @@ const initialFormData: IFormData = {
 };
 
 const CreateNew = () => {
+  const { toast } = useToast();
+  const [loading, setLoading] = useState<boolean>(false);
   const [formData, setFormData] = useState<IFormData>(initialFormData);
+  const [videoScript, setVideoScript] = useState<any>();
   const onHandleInputChange = (fieldName: string, fieldValue: string) => {
-    console.log(fieldName, fieldValue);
     setFormData((prev) => ({
       ...prev,
       [fieldName]: fieldValue,
     }));
+  };
+
+  const onCreateClickHandler = () => {
+    getVideoScript();
+  };
+  // get video script
+  const getVideoScript = async () => {
+    if (
+      formData.duration !== "" &&
+      formData.topic !== "" &&
+      formData.imageStyle !== ""
+    ) {
+      setLoading(true);
+
+      const prompt = `write a script to generate ${formData.duration} video on topic ${formData.topic} along with ai image prompt in ${formData.imageStyle} format for each scene and give me result in json format with imagePrompt and contentText as field`;
+      console.log(prompt);
+      const result = await axios
+        .post("/api/get-video-script", {
+          prompt: prompt,
+        })
+        .then((res) => {
+          console.log(res.data.result);
+          setVideoScript(res.data.result);
+          // toast({
+          //   title: "Video Script Generated",
+          //   description: "Video Script Generated Successfully",
+          // });
+        });
+      setLoading(false);
+    }
   };
   return (
     <div className="md:px-20">
@@ -41,8 +75,11 @@ const CreateNew = () => {
         {/* diratiopn */}
         <SelectDuration onUserSelect={onHandleInputChange} />
         {/* create button */}
-        <Button className="mt-10 w-full">Create Short Video</Button>
+        <Button className="mt-10 w-full" onClick={onCreateClickHandler}>
+          Create Short Video
+        </Button>
       </div>
+      <CustomLoading loading={loading} />
     </div>
   );
 };

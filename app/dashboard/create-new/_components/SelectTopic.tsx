@@ -25,7 +25,6 @@ const optioins: string[] = [
   "Interactive Quiz",
   "Daily Horoscope",
   "AI-generated Joke",
-  "Romantic Short",
   "Action Scene",
   "Mystery Plot Teaser",
   "Life Hack Explainer",
