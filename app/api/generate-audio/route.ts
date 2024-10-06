@@ -10,7 +10,7 @@ export interface AudioReqBody {
 }
 
 const client = new textToSpeech.TextToSpeechClient({
-  apiKey: process.env.GOOLE_API_KEY,
+  apiKey: process.env.GOOGLE_API_KEY,
 });
 
 export async function POST(req: { json: () => PromiseLike<AudioReqBody> }) {
