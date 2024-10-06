@@ -10,9 +10,13 @@ export const Users = pgTable("users", {
 
 export const VideoData = pgTable("videoData", {
     id: serial('id').primaryKey(),
+    topic: varchar('topic').notNull(),
+    imageStyle: varchar('imageStyle').notNull(),
+    duration: varchar('duration').notNull(),
     script:  json('script').notNull(),
     audioFileUrl: varchar('audioFileUrl').notNull(),
     captions: json('captions').notNull(),
     imageList: varchar('imageList').array().notNull(),
     createdBy: varchar('createdBy').notNull(),
+    
 });
