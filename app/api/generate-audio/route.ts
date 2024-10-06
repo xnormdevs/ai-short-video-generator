@@ -32,5 +32,5 @@ export async function POST(req: { json: () => PromiseLike<AudioReqBody> }) {
   const downloadUrl = await getDownloadURL(storageRef);
   console.log(downloadUrl);
 
-  return NextResponse.json({ result: "success" });
+  return NextResponse.json({ result: downloadUrl });
 }

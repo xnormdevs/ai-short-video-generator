@@ -45,7 +45,7 @@ const MenuOptions: IMenuOptions[] = [
 ];
 const SideNav = () => {
   const path = usePathname();
-  console.log(path);
+  // console.log(path);
   return (
     <div className="w-full h-screen px-5 pt-20 shadow-md">
       <div className="grid gap-2">
