@@ -13,6 +13,7 @@ import { IVideoData, VideoDataContext } from "@/app/_context/VideoDataContext";
 import { db } from "@/configs/db";
 import { VideoData } from "@/configs/schema";
 import { useSession } from "next-auth/react";
+import PlayerDialog from "../_components/PlayerDialog";
 export interface IFormData {
   topic: string;
   imageStyle: string;
@@ -60,6 +61,8 @@ const CreateNew = () => {
   const { videoData, setVideoData }: any = useContext(VideoDataContext);
   const [loading, setLoading] = useState<boolean>(false);
   const [formData, setFormData] = useState<IFormData>(initialFormData);
+  const [playVideo, setPlayVideo] = useState<boolean>(false);
+  const [videoId, setVideoId] = useState<number>(0);
   const [videoScriptData, setVideoScriptData] = useState<IVideoScript[]>([]);
   const [audioFileUrl, setAudioFileUrl] = useState<string>("");
   const [caption, setCaption] = useState<ICaptions[]>([]);
@@ -189,7 +192,7 @@ const CreateNew = () => {
   };
 
   useEffect(() => {
-    console.log("videoData : ", videoData);
+    // console.log("videoData : ", videoData);
     if (
       videoData &&
       Object?.keys(videoData).length === 4 &&
@@ -217,9 +220,12 @@ const CreateNew = () => {
           createdBy: session?.user?.email,
         })
         .returning({ id: VideoData.id });
-
+      setVideoId(result[0].id);
+      setPlayVideo(true);
       console.log(result);
       setLoading(false);
+      setFormData(initialFormData);
+      setVideoData(null);
     }
   };
   return (
@@ -241,6 +247,8 @@ const CreateNew = () => {
         </Button>
       </div>
       <CustomLoading loading={loading} />
+
+      <PlayerDialog playVideo={playVideo} videoId={videoId} setPlayVideo={setPlayVideo}/>
     </div>
   );
 };
