@@ -10,6 +10,9 @@ import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
 import CustomLoading from "./_components/CustomLoading";
 import { IVideoData, VideoDataContext } from "@/app/_context/VideoDataContext";
+import { db } from "@/configs/db";
+import { VideoData } from "@/configs/schema";
+import { useSession } from "next-auth/react";
 export interface IFormData {
   topic: string;
   imageStyle: string;
@@ -53,6 +56,7 @@ const VIDEO_SCRIPT_DATA: IVideoScript[] = [
 ];
 const CreateNew = () => {
   const { toast } = useToast();
+  const { data: session, status } = useSession();
   const { videoData, setVideoData }: any = useContext(VideoDataContext);
   const [loading, setLoading] = useState<boolean>(false);
   const [formData, setFormData] = useState<IFormData>(initialFormData);
@@ -105,6 +109,7 @@ const CreateNew = () => {
         }));
         setVideoScriptData(result.data.result);
         await generateAudioFile(result.data.result);
+        await generateImage(result.data.result);
         setLoading(false);
       }
     }
@@ -151,7 +156,6 @@ const CreateNew = () => {
         captions: res.data.result,
       }));
       setCaption(res.data.result);
-      await generateImage(videoScriptData);
     }
   };
 
@@ -182,7 +186,35 @@ const CreateNew = () => {
 
   useEffect(() => {
     console.log("videoData : ", videoData);
+    if (
+      videoData &&
+      Object?.keys(videoData).length === 4 &&
+      videoData.imageList.length !== 0
+    ) {
+      saveVideoData(videoData);
+    }
   }, [videoData]);
+
+  const saveVideoData = async (videoData: any) => {
+    console.log("save data to database");
+    setLoading(true);
+
+    if (session?.user?.email && status === "authenticated") {
+      const result = await db
+        .insert(VideoData)
+        .values({
+          script: videoData.videoScript,
+          audioFileUrl: videoData.audioFileUrl,
+          captions: videoData.captions,
+          imageList: videoData.imageList,
+          createdBy: session?.user?.email,
+        })
+        .returning({ id: VideoData.id });
+
+      console.log(result);
+      setLoading(false);
+    }
+  };
   return (
     <div className="md:px-20">
       <HeaderTitle

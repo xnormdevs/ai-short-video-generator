@@ -7,7 +7,7 @@ import Link from "next/link";
 
 const Header = () => {
   const { data: session, status } = useSession();
-  // console.log(session, status);
+  // console.log(session?.user, status);
 
   return (
     <div className="flex items-center justify-between shadow-md h-16 mb-2 py-2 px-10 fixed w-full">
