@@ -1,6 +1,7 @@
 "use client";
 import Login from "@/components/authModal/Login";
 import Logout from "@/components/logout/Logout";
+import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -23,10 +24,15 @@ const Header = () => {
             <h2 className="ml-2 text-base text-gray-800">AI Short vid</h2>
           </div>
         </Link>
-        <div className="flex items-center"></div>
+
         {status === "authenticated" ? (
           <>
-            <Logout />
+            <div className="flex items-center">
+              <Link href='/dashboard'>
+                <Button className="mr-5">Dashboard</Button>
+              </Link>
+              <Logout />
+            </div>
           </>
         ) : (
           <Login />
