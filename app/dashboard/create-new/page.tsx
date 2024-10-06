@@ -110,6 +110,7 @@ const CreateNew = () => {
         setVideoScriptData(result.data.result);
         await generateAudioFile(result.data.result);
         await generateImage(result.data.result);
+
         setLoading(false);
       }
     }
@@ -177,10 +178,13 @@ const CreateNew = () => {
         console.log("Error in image generation : ", err);
       }
     }
-    setVideoData((prev: any) => ({
-      ...prev,
-      imageList: imagesAray,
-    }));
+
+    if (imagesAray.length > 0) {
+      setVideoData((prev: any) => ({
+        ...prev,
+        imageList: imagesAray,
+      }));
+    }
     setImageList(imagesAray);
   };
 
@@ -189,7 +193,7 @@ const CreateNew = () => {
     if (
       videoData &&
       Object?.keys(videoData).length === 4 &&
-      videoData.imageList.length !== 0
+      videoData.imageList?.length > 0
     ) {
       saveVideoData(videoData);
     }
