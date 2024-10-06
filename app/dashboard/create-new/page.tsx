@@ -204,6 +204,9 @@ const CreateNew = () => {
         .insert(VideoData)
         .values({
           script: videoData.videoScript,
+          topic: formData.topic,
+          imageStyle: formData.imageStyle,
+          duration: formData.duration,
           audioFileUrl: videoData.audioFileUrl,
           captions: videoData.captions,
           imageList: videoData.imageList,
