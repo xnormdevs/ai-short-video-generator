@@ -1,14 +1,12 @@
 import { storage } from "@/configs/FirebaseConfig";
 import { convertImage } from "@/lib/helper";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import Replicate from "replicate";
 export interface ImageGenerateBody {
   prompt: string;
 }
-export async function POST(req: {
-  json: () => PromiseLike<ImageGenerateBody>;
-}) {
+export async function POST(req: NextRequest) {
   try {
     const { prompt } = await req.json();
     const replicate = new Replicate({

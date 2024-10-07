@@ -1,11 +1,11 @@
 import { chatSession } from "@/configs/AiModal";
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 
 export interface PromptReqBody {
   prompt: string;
 }
 
-export async function POST(req: { json: () => PromiseLike<PromptReqBody> }) {
+export async function POST(req: NextRequest) {
   try {
     const { prompt } = await req.json();
     console.log(prompt);

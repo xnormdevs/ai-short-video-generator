@@ -1,11 +1,9 @@
 import { AssemblyAI } from "assemblyai";
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 export interface CaptionGenerateBody {
   audioFileUrl: string;
 }
-export async function POST(req: {
-  json: () => PromiseLike<CaptionGenerateBody>;
-}) {
+export async function POST(req: NextRequest) {
   try {
     const { audioFileUrl } = await req.json();
 
