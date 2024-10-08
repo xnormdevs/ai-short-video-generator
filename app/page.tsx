@@ -6,5 +6,5 @@ import Header from "./dashboard/_components/Header";
 
 export default function Home() {
   const { data: session, status } = useSession();
-  return <Header />;
+  return <>HOME</>;
 }

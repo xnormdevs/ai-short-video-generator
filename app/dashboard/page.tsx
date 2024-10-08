@@ -5,12 +5,13 @@ import { VideoData } from "@/configs/schema";
 import { eq } from "drizzle-orm";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import HeaderTitle from "../../components/common/HeaderTitle";
 import EmptyState from "./_components/EmptyState";
 import { VideoDataProps } from "./_components/PlayerDialog";
 import Image from "next/image";
 import VideoList from "./_components/VideoList";
+import { UserDetailsContext } from "../_context/UserDetailsContext";
 
 const Dashboard = () => {
   const { data: session, status } = useSession();
@@ -47,7 +48,7 @@ const Dashboard = () => {
         videoList?.length === 0 ? (
           <EmptyState />
         ) : (
-          <VideoList videoList={videoList}/>
+          <VideoList videoList={videoList} />
         )
       ) : (
         <div className="flex p-5 items-center flex-col mt-10 border-2 border-dotted py-24">

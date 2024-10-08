@@ -11,9 +11,11 @@ import axios from "axios";
 import CustomLoading from "./_components/CustomLoading";
 import { IVideoData, VideoDataContext } from "@/app/_context/VideoDataContext";
 import { db } from "@/configs/db";
-import { VideoData } from "@/configs/schema";
+import { Users, VideoData } from "@/configs/schema";
 import { useSession } from "next-auth/react";
 import PlayerDialog from "../_components/PlayerDialog";
+import { UserDetailsContext } from "@/app/_context/UserDetailsContext";
+import { eq } from "drizzle-orm";
 export interface IFormData {
   topic: string;
   imageStyle: string;
@@ -57,6 +59,7 @@ const VIDEO_SCRIPT_DATA: IVideoScript[] = [
 ];
 const CreateNew = () => {
   const { toast } = useToast();
+  const { userDetails, setUserDetails }: any = useContext(UserDetailsContext);
   const { data: session, status } = useSession();
   const { videoData, setVideoData }: any = useContext(VideoDataContext);
   const [loading, setLoading] = useState<boolean>(false);
@@ -80,7 +83,9 @@ const CreateNew = () => {
    * Currently only calls generateImage() due to incomplete implementation.
    */
   const onCreateClickHandler = () => {
-    getVideoScript();
+    if (userDetails?.credits > 0) {
+      getVideoScript();
+    }
     // generateAudioFile([]);
     // generateCaptions(FILE_URL);
     // generateImage();
@@ -116,6 +121,10 @@ const CreateNew = () => {
 
         setLoading(false);
       }
+    } else {
+      toast({
+        title: "Fields cannot be empty",
+      });
     }
   };
   /**
@@ -220,12 +229,28 @@ const CreateNew = () => {
           createdBy: session?.user?.email,
         })
         .returning({ id: VideoData.id });
+      await updateUserCredits();
       setVideoId(result[0].id);
       setPlayVideo(true);
       console.log(result);
       setLoading(false);
       setFormData(initialFormData);
       setVideoData(null);
+    }
+  };
+
+  const updateUserCredits = async () => {
+    if (userDetails) {
+      const res = await db
+        .update(Users)
+        .set({
+          credits: userDetails?.credits - 10,
+        })
+        .where(eq(Users.email, userDetails?.email));
+      setUserDetails((prev: any) => ({
+        ...prev,
+        credits: userDetails?.credits - 10,
+      }));
     }
   };
   return (
@@ -248,7 +273,11 @@ const CreateNew = () => {
       </div>
       <CustomLoading loading={loading} />
 
-      <PlayerDialog playVideo={playVideo} videoId={videoId} setPlayVideo={setPlayVideo}/>
+      <PlayerDialog
+        playVideo={playVideo}
+        videoId={videoId}
+        setPlayVideo={setPlayVideo}
+      />
     </div>
   );
 };
